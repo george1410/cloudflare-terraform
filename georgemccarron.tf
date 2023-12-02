@@ -1,9 +1,9 @@
-resource "cloudflare_record" "root_a" {
+resource "cloudflare_record" "root_a_vercel" {
   name    = "georgemccarron.com"
   proxied = true
   ttl     = 1
   type    = "A"
-  value   = "104.198.14.52"
+  value   = "76.76.21.21"
   zone_id = "50ce096d2ab993a329778b750e9f7573"
 }
 
@@ -47,12 +47,12 @@ resource "cloudflare_record" "mail_subdomain" {
   zone_id = "50ce096d2ab993a329778b750e9f7573"
 }
 
-resource "cloudflare_record" "www_subdomain" {
+resource "cloudflare_record" "www_subdomain_vercel" {
   name    = "www"
   proxied = true
   ttl     = 1
   type    = "CNAME"
-  value   = "jovial-spence-456d13.netlify.app"
+  value   = "cname.vercel-dns.com."
   zone_id = "50ce096d2ab993a329778b750e9f7573"
 }
 
