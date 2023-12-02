@@ -1,6 +1,6 @@
 resource "cloudflare_record" "root_a_vercel" {
   name    = "georgemccarron.com"
-  proxied = true
+  proxied = false
   ttl     = 1
   type    = "A"
   value   = "76.76.21.21"
@@ -49,7 +49,7 @@ resource "cloudflare_record" "mail_subdomain" {
 
 resource "cloudflare_record" "www_subdomain_vercel" {
   name    = "www"
-  proxied = true
+  proxied = false
   ttl     = 1
   type    = "CNAME"
   value   = "cname.vercel-dns.com."
