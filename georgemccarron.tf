@@ -1,9 +1,13 @@
+locals {
+  zone_id = "50ce096d2ab993a329778b750e9f7573"
+}
+
 resource "cloudflare_dns_record" "root_a_vercel" {
   name    = "georgemccarron.com"
   proxied = false
   ttl     = 1
   type    = "A"
-  zone_id = "50ce096d2ab993a329778b750e9f7573"
+  zone_id = local.zone_id
   content = "76.76.21.21"
 }
 
@@ -12,7 +16,7 @@ resource "cloudflare_dns_record" "letsencrypt" {
   proxied = false
   ttl     = 1
   type    = "CAA"
-  zone_id = "50ce096d2ab993a329778b750e9f7573"
+  zone_id = local.zone_id
   data = {
     flags = 0
     tag   = "issue"
@@ -25,7 +29,7 @@ resource "cloudflare_dns_record" "calendar_subdomain" {
   proxied = true
   ttl     = 1
   type    = "CNAME"
-  zone_id = "50ce096d2ab993a329778b750e9f7573"
+  zone_id = local.zone_id
   content = "ghs.googlehosted.com"
 }
 
@@ -34,7 +38,7 @@ resource "cloudflare_dns_record" "drive_subdomain" {
   proxied = true
   ttl     = 1
   type    = "CNAME"
-  zone_id = "50ce096d2ab993a329778b750e9f7573"
+  zone_id = local.zone_id
   content = "ghs.googlehosted.com"
 }
 
@@ -43,7 +47,7 @@ resource "cloudflare_dns_record" "mail_subdomain" {
   proxied = true
   ttl     = 1
   type    = "CNAME"
-  zone_id = "50ce096d2ab993a329778b750e9f7573"
+  zone_id = local.zone_id
   content = "ghs.googlehosted.com"
 }
 
@@ -52,7 +56,7 @@ resource "cloudflare_dns_record" "www_subdomain_vercel" {
   proxied = false
   ttl     = 1
   type    = "CNAME"
-  zone_id = "50ce096d2ab993a329778b750e9f7573"
+  zone_id = local.zone_id
   content = "cname.vercel-dns.com"
 }
 
@@ -62,7 +66,7 @@ resource "cloudflare_dns_record" "mail_primary" {
   proxied  = false
   ttl      = 1
   type     = "MX"
-  zone_id  = "50ce096d2ab993a329778b750e9f7573"
+  zone_id  = local.zone_id
   content  = "aspmx.l.google.com"
 }
 
@@ -72,7 +76,7 @@ resource "cloudflare_dns_record" "mail_alt_1" {
   proxied  = false
   ttl      = 1
   type     = "MX"
-  zone_id  = "50ce096d2ab993a329778b750e9f7573"
+  zone_id  = local.zone_id
   content  = "alt1.aspmx.l.google.com"
 }
 
@@ -82,7 +86,7 @@ resource "cloudflare_dns_record" "mail_alt_2" {
   proxied  = false
   ttl      = 1
   type     = "MX"
-  zone_id  = "50ce096d2ab993a329778b750e9f7573"
+  zone_id  = local.zone_id
   content  = "alt2.aspmx.l.google.com"
 }
 
@@ -92,7 +96,7 @@ resource "cloudflare_dns_record" "mail_alt_3" {
   proxied  = false
   ttl      = 1
   type     = "MX"
-  zone_id  = "50ce096d2ab993a329778b750e9f7573"
+  zone_id  = local.zone_id
   content  = "alt3.aspmx.l.google.com"
 }
 
@@ -102,7 +106,7 @@ resource "cloudflare_dns_record" "mail_alt_4" {
   proxied  = false
   ttl      = 1
   type     = "MX"
-  zone_id  = "50ce096d2ab993a329778b750e9f7573"
+  zone_id  = local.zone_id
   content  = "alt4.aspmx.l.google.com"
 }
 
@@ -111,7 +115,7 @@ resource "cloudflare_dns_record" "r53_ns_1" {
   proxied = false
   ttl     = 1
   type    = "NS"
-  zone_id = "50ce096d2ab993a329778b750e9f7573"
+  zone_id = local.zone_id
   content = "ns-627.awsdns-14.net"
 }
 
@@ -120,7 +124,7 @@ resource "cloudflare_dns_record" "r53_ns_2" {
   proxied = false
   ttl     = 1
   type    = "NS"
-  zone_id = "50ce096d2ab993a329778b750e9f7573"
+  zone_id = local.zone_id
   content = "ns-314.awsdns-39.com"
 }
 
@@ -129,7 +133,7 @@ resource "cloudflare_dns_record" "r53_ns_3" {
   proxied = false
   ttl     = 1
   type    = "NS"
-  zone_id = "50ce096d2ab993a329778b750e9f7573"
+  zone_id = local.zone_id
   content = "ns-1664.awsdns-16.co.uk"
 }
 
@@ -138,7 +142,7 @@ resource "cloudflare_dns_record" "r53_ns_4" {
   proxied = false
   ttl     = 1
   type    = "NS"
-  zone_id = "50ce096d2ab993a329778b750e9f7573"
+  zone_id = local.zone_id
   content = "ns-1278.awsdns-31.org"
 }
 
@@ -147,7 +151,7 @@ resource "cloudflare_dns_record" "gmail_dmarc" {
   proxied = false
   ttl     = 1
   type    = "TXT"
-  zone_id = "50ce096d2ab993a329778b750e9f7573"
+  zone_id = local.zone_id
   content = "v=DMARC1; p=none"
 }
 
@@ -156,7 +160,7 @@ resource "cloudflare_dns_record" "hibp_verification" {
   proxied = false
   ttl     = 1
   type    = "TXT"
-  zone_id = "50ce096d2ab993a329778b750e9f7573"
+  zone_id = local.zone_id
   content = "have-i-been-pwned-verification=631ce70aff80ff053ab2c5719e8141ef"
 }
 
@@ -165,7 +169,7 @@ resource "cloudflare_dns_record" "gmail_spf" {
   proxied = false
   ttl     = 1
   type    = "TXT"
-  zone_id = "50ce096d2ab993a329778b750e9f7573"
+  zone_id = local.zone_id
   content = "v=spf1 include:_spf.google.com ~all"
 }
 
@@ -174,7 +178,7 @@ resource "cloudflare_dns_record" "google_site_verification" {
   proxied = false
   ttl     = 1
   type    = "TXT"
-  zone_id = "50ce096d2ab993a329778b750e9f7573"
+  zone_id = local.zone_id
   content = "google-site-verification=-gtMxdeTYzmCCYuBtzD-f8n0JNKyl-s1qRmeguoWGD4"
 }
 
@@ -183,6 +187,6 @@ resource "cloudflare_dns_record" "gmail_dkim" {
   proxied = false
   ttl     = 1
   type    = "TXT"
-  zone_id = "50ce096d2ab993a329778b750e9f7573"
+  zone_id = local.zone_id
   content = "v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA28eLjC3k7Y0ESfofSUyFjdy0SE7gNKSsKhABPcrn8gaXtXXs/+4YNyx2rOWZbylwcKBAS5yto5OvlQN1zPmpgk3xaAvzlJ2OIQJDdl7Ltz9vZCRyZF2bBZT3QWrdTs+BFUpzExFfdbM04Ew0SL3P+2ymg64LJMPBG6Z4mlVNkzQhqpUx7ylcKj99JOkUi3aicBt5r/cpbyrkbVKH+iPRB+Zn9i5L3kiluIhdMEeK1R2U9hQsS9EBTpU5llwTlwQVzx3eeLyLgZ1fgLMeNGT1P5Mu8Moq7MxSjj+rlv8fk9D0+o1PHcalmgf8B4XZnBeAnvvSoaj9c6F0zpTm3QvD8QIDAQAB"
 }
