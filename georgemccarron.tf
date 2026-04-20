@@ -190,3 +190,31 @@ resource "cloudflare_dns_record" "gmail_dkim" {
   zone_id = local.zone_id
   content = "v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA28eLjC3k7Y0ESfofSUyFjdy0SE7gNKSsKhABPcrn8gaXtXXs/+4YNyx2rOWZbylwcKBAS5yto5OvlQN1zPmpgk3xaAvzlJ2OIQJDdl7Ltz9vZCRyZF2bBZT3QWrdTs+BFUpzExFfdbM04Ew0SL3P+2ymg64LJMPBG6Z4mlVNkzQhqpUx7ylcKj99JOkUi3aicBt5r/cpbyrkbVKH+iPRB+Zn9i5L3kiluIhdMEeK1R2U9hQsS9EBTpU5llwTlwQVzx3eeLyLgZ1fgLMeNGT1P5Mu8Moq7MxSjj+rlv8fk9D0+o1PHcalmgf8B4XZnBeAnvvSoaj9c6F0zpTm3QvD8QIDAQAB"
 }
+
+resource "cloudflare_dns_record" "networth_resend_dkim" {
+  name    = "resend._domainkey.networth"
+  type    = "TXT"
+  ttl     = 1
+  proxied = false
+  zone_id = local.zone_id
+  content = "p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC7pFKpeH8wESO68dKPpHEnSHxDO5crs5oeeyRQwLzcxsDpwGRxMflYQ7djs80ipbmMTmhDTYmLVaVTXfZC/phmj2n3/6dqQugsz5mR8AAJrfmA0G23Om6/o/QVcQCvAIcr8rgbppN25tXsaDJarikqkLAeczB5hpE5lXQiZcfyvQIDAQAB"
+}
+
+resource "cloudflare_dns_record" "networth_resend_mx" {
+  name    = "send.networth"
+  type    = "MX"
+  priority = 10
+  ttl     = 1
+  proxied = false
+  zone_id = local.zone_id
+  content = "feedback-smtp.eu-west-1.amazonses.com"
+}
+
+resource "cloudflare_dns_record" "networth_resend_spf" {
+  name    = "send.networth"
+  type    = "TXT"
+  ttl     = 1
+  proxied = false
+  zone_id = local.zone_id
+  content = "v=spf1 include:amazonses.com ~all"
+}
