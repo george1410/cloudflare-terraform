@@ -218,3 +218,12 @@ resource "cloudflare_dns_record" "networth_resend_spf" {
   zone_id = local.zone_id
   content = "v=spf1 include:amazonses.com ~all"
 }
+
+resource "cloudflare_dns_record" "networth_vercel_cname" {
+  name    = "networth"
+  type    = "CNAME"
+  ttl     = 1
+  proxied = false
+  zone_id = local.zone_id
+  content = "997f4b19f9cdac58.vercel-dns-017.com."
+}
