@@ -201,13 +201,13 @@ resource "cloudflare_dns_record" "networth_resend_dkim" {
 }
 
 resource "cloudflare_dns_record" "networth_resend_mx" {
-  name    = "send.networth"
-  type    = "MX"
+  name     = "send.networth"
+  type     = "MX"
   priority = 10
-  ttl     = 1
-  proxied = false
-  zone_id = local.zone_id
-  content = "feedback-smtp.eu-west-1.amazonses.com"
+  ttl      = 1
+  proxied  = false
+  zone_id  = local.zone_id
+  content  = "feedback-smtp.eu-west-1.amazonses.com"
 }
 
 resource "cloudflare_dns_record" "networth_resend_spf" {
@@ -225,5 +225,42 @@ resource "cloudflare_dns_record" "networth_vercel_cname" {
   ttl     = 1
   proxied = false
   zone_id = local.zone_id
-  content = "997f4b19f9cdac58.vercel-dns-017.com."
+  content = "997f4b19f9cdac58.vercel-dns-017.com"
+}
+
+resource "cloudflare_dns_record" "househunt_vercel_cname" {
+  name    = "househunt"
+  type    = "CNAME"
+  ttl     = 1
+  proxied = false
+  zone_id = local.zone_id
+  content = "60913cc48011efbe.vercel-dns-017.com"
+}
+
+resource "cloudflare_dns_record" "househunt_resend_dkim" {
+  name    = "resend._domainkey.househunt"
+  type    = "TXT"
+  ttl     = 1
+  proxied = false
+  zone_id = local.zone_id
+  content = "p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCf/DqAOvL07oN+C5vCiHmdZLR+wrU0AgnetBKhbkBK919dCk7Sl7qNZTyKJeaXgCTnSQQdMaJuZ0dAeobDXwKZhvR2nFHgkwxYM26GyhCIp3Tz5FIYm4FXux1bPu+e2INUGK3OhV2vC9l92a1Ij35GZrbU36EZU0TNJsjluir6HQIDAQAB"
+}
+
+resource "cloudflare_dns_record" "househunt_resend_mx" {
+  name     = "send.househunt"
+  type     = "MX"
+  priority = 10
+  ttl      = 1
+  proxied  = false
+  zone_id  = local.zone_id
+  content  = "feedback-smtp.eu-west-1.amazonses.com"
+}
+
+resource "cloudflare_dns_record" "househunt_resend_spf" {
+  name    = "send.househunt"
+  type    = "TXT"
+  ttl     = 1
+  proxied = false
+  zone_id = local.zone_id
+  content = "v=spf1 include:amazonses.com ~all"
 }

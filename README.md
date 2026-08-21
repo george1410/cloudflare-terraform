@@ -7,7 +7,7 @@ State in S3 bucket `george1410-cloudflare-terraform-state` (eu-west-2, account `
 ## Run
 
 ```sh
-source .env                                   # CLOUDFLARE_API_TOKEN
+source .env                                   # export CLOUDFLARE_API_TOKEN into this shell
 # put static AWS keys in ~/.aws/credentials
 terraform plan
 terraform apply
