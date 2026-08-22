@@ -237,6 +237,15 @@ resource "cloudflare_dns_record" "househunt_vercel_cname" {
   content = "60913cc48011efbe.vercel-dns-017.com"
 }
 
+resource "cloudflare_dns_record" "househunt_api_cname" {
+  name    = "api.househunt"
+  type    = "CNAME"
+  ttl     = 1
+  proxied = false
+  zone_id = local.zone_id
+  content = "domains-management.outplane.app"
+}
+
 resource "cloudflare_dns_record" "househunt_resend_dkim" {
   name    = "resend._domainkey.househunt"
   type    = "TXT"
