@@ -1,5 +1,12 @@
+data "cloudflare_zone" "georgemccarron" {
+  filter = {
+    name = local.domain
+  }
+}
+
 locals {
-  zone_id = "50ce096d2ab993a329778b750e9f7573"
+  domain  = "georgemccarron.com"
+  zone_id = data.cloudflare_zone.georgemccarron.zone_id
 
   google_workspace_cnames = toset([
     "calendar",
@@ -30,7 +37,7 @@ locals {
 }
 
 resource "cloudflare_dns_record" "root_a_vercel" {
-  name    = "georgemccarron.com"
+  name    = local.domain
   proxied = false
   ttl     = 1
   type    = "A"
@@ -39,7 +46,7 @@ resource "cloudflare_dns_record" "root_a_vercel" {
 }
 
 resource "cloudflare_dns_record" "letsencrypt" {
-  name    = "georgemccarron.com"
+  name    = local.domain
   proxied = false
   ttl     = 1
   type    = "CAA"
@@ -74,7 +81,7 @@ resource "cloudflare_dns_record" "www_subdomain_vercel" {
 resource "cloudflare_dns_record" "gmail_mx" {
   for_each = local.gmail_mx
 
-  name     = "georgemccarron.com"
+  name     = local.domain
   priority = each.value
   proxied  = false
   ttl      = 1
@@ -106,7 +113,7 @@ resource "cloudflare_dns_record" "gmail_dmarc" {
 resource "cloudflare_dns_record" "root_txt" {
   for_each = local.root_txt
 
-  name    = "georgemccarron.com"
+  name    = local.domain
   proxied = false
   ttl     = 1
   type    = "TXT"
