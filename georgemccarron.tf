@@ -30,9 +30,10 @@ locals {
   ])
 
   root_txt = {
-    hibp                     = "have-i-been-pwned-verification=631ce70aff80ff053ab2c5719e8141ef"
-    spf                      = "v=spf1 include:_spf.google.com ~all"
-    google_site_verification = "google-site-verification=-gtMxdeTYzmCCYuBtzD-f8n0JNKyl-s1qRmeguoWGD4"
+    hibp                           = "have-i-been-pwned-verification=631ce70aff80ff053ab2c5719e8141ef"
+    spf                            = "v=spf1 include:_spf.google.com ~all"
+    google_site_verification       = "google-site-verification=-gtMxdeTYzmCCYuBtzD-f8n0JNKyl-s1qRmeguoWGD4"
+    google_postmaster_verification = "google-site-verification=pYI7aOI7QSqkn3uGiZVe9tGZuDZORfZ_ieZ2aByVPzc"
   }
 }
 
