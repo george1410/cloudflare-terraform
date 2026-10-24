@@ -28,6 +28,10 @@ provider "aws" {
 
 resource "aws_s3_bucket" "remote_terraform_state" {
   bucket = "george1410-cloudflare-terraform-state"
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "aws_s3_bucket_versioning" "remote_terraform_state_versioning" {

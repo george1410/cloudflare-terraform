@@ -1,5 +1,32 @@
 locals {
   zone_id = "50ce096d2ab993a329778b750e9f7573"
+
+  google_workspace_cnames = toset([
+    "calendar",
+    "drive",
+    "mail",
+  ])
+
+  gmail_mx = {
+    "aspmx.l.google.com"      = 1
+    "alt1.aspmx.l.google.com" = 5
+    "alt2.aspmx.l.google.com" = 5
+    "alt3.aspmx.l.google.com" = 10
+    "alt4.aspmx.l.google.com" = 10
+  }
+
+  r53_ns = toset([
+    "ns-627.awsdns-14.net",
+    "ns-314.awsdns-39.com",
+    "ns-1664.awsdns-16.co.uk",
+    "ns-1278.awsdns-31.org",
+  ])
+
+  root_txt = {
+    hibp                     = "have-i-been-pwned-verification=631ce70aff80ff053ab2c5719e8141ef"
+    spf                      = "v=spf1 include:_spf.google.com ~all"
+    google_site_verification = "google-site-verification=-gtMxdeTYzmCCYuBtzD-f8n0JNKyl-s1qRmeguoWGD4"
+  }
 }
 
 resource "cloudflare_dns_record" "root_a_vercel" {
@@ -24,26 +51,10 @@ resource "cloudflare_dns_record" "letsencrypt" {
   }
 }
 
-resource "cloudflare_dns_record" "calendar_subdomain" {
-  name    = "calendar"
-  proxied = true
-  ttl     = 1
-  type    = "CNAME"
-  zone_id = local.zone_id
-  content = "ghs.googlehosted.com"
-}
+resource "cloudflare_dns_record" "google_workspace_cname" {
+  for_each = local.google_workspace_cnames
 
-resource "cloudflare_dns_record" "drive_subdomain" {
-  name    = "drive"
-  proxied = true
-  ttl     = 1
-  type    = "CNAME"
-  zone_id = local.zone_id
-  content = "ghs.googlehosted.com"
-}
-
-resource "cloudflare_dns_record" "mail_subdomain" {
-  name    = "mail"
+  name    = each.value
   proxied = true
   ttl     = 1
   type    = "CNAME"
@@ -60,90 +71,27 @@ resource "cloudflare_dns_record" "www_subdomain_vercel" {
   content = "cname.vercel-dns.com"
 }
 
-resource "cloudflare_dns_record" "mail_primary" {
+resource "cloudflare_dns_record" "gmail_mx" {
+  for_each = local.gmail_mx
+
   name     = "georgemccarron.com"
-  priority = 1
+  priority = each.value
   proxied  = false
   ttl      = 1
   type     = "MX"
   zone_id  = local.zone_id
-  content  = "aspmx.l.google.com"
+  content  = each.key
 }
 
-resource "cloudflare_dns_record" "mail_alt_1" {
-  name     = "georgemccarron.com"
-  priority = 5
-  proxied  = false
-  ttl      = 1
-  type     = "MX"
-  zone_id  = local.zone_id
-  content  = "alt1.aspmx.l.google.com"
-}
+resource "cloudflare_dns_record" "r53_ns" {
+  for_each = local.r53_ns
 
-resource "cloudflare_dns_record" "mail_alt_2" {
-  name     = "georgemccarron.com"
-  priority = 5
-  proxied  = false
-  ttl      = 1
-  type     = "MX"
-  zone_id  = local.zone_id
-  content  = "alt2.aspmx.l.google.com"
-}
-
-resource "cloudflare_dns_record" "mail_alt_3" {
-  name     = "georgemccarron.com"
-  priority = 10
-  proxied  = false
-  ttl      = 1
-  type     = "MX"
-  zone_id  = local.zone_id
-  content  = "alt3.aspmx.l.google.com"
-}
-
-resource "cloudflare_dns_record" "mail_alt_4" {
-  name     = "georgemccarron.com"
-  priority = 10
-  proxied  = false
-  ttl      = 1
-  type     = "MX"
-  zone_id  = local.zone_id
-  content  = "alt4.aspmx.l.google.com"
-}
-
-resource "cloudflare_dns_record" "r53_ns_1" {
   name    = "aws"
   proxied = false
   ttl     = 1
   type    = "NS"
   zone_id = local.zone_id
-  content = "ns-627.awsdns-14.net"
-}
-
-resource "cloudflare_dns_record" "r53_ns_2" {
-  name    = "aws"
-  proxied = false
-  ttl     = 1
-  type    = "NS"
-  zone_id = local.zone_id
-  content = "ns-314.awsdns-39.com"
-}
-
-resource "cloudflare_dns_record" "r53_ns_3" {
-  name    = "aws"
-  proxied = false
-  ttl     = 1
-  type    = "NS"
-  zone_id = local.zone_id
-  content = "ns-1664.awsdns-16.co.uk"
-}
-
-resource "cloudflare_dns_record" "r53_ns_4" {
-  name    = "aws"
-  proxied = false
-  ttl     = 1
-  type    = "NS"
-  zone_id = local.zone_id
-  content = "ns-1278.awsdns-31.org"
+  content = each.value
 }
 
 resource "cloudflare_dns_record" "gmail_dmarc" {
@@ -155,31 +103,15 @@ resource "cloudflare_dns_record" "gmail_dmarc" {
   content = "v=DMARC1; p=none"
 }
 
-resource "cloudflare_dns_record" "hibp_verification" {
-  name    = "georgemccarron.com"
-  proxied = false
-  ttl     = 1
-  type    = "TXT"
-  zone_id = local.zone_id
-  content = "have-i-been-pwned-verification=631ce70aff80ff053ab2c5719e8141ef"
-}
+resource "cloudflare_dns_record" "root_txt" {
+  for_each = local.root_txt
 
-resource "cloudflare_dns_record" "gmail_spf" {
   name    = "georgemccarron.com"
   proxied = false
   ttl     = 1
   type    = "TXT"
   zone_id = local.zone_id
-  content = "v=spf1 include:_spf.google.com ~all"
-}
-
-resource "cloudflare_dns_record" "google_site_verification" {
-  name    = "georgemccarron.com"
-  proxied = false
-  ttl     = 1
-  type    = "TXT"
-  zone_id = local.zone_id
-  content = "google-site-verification=-gtMxdeTYzmCCYuBtzD-f8n0JNKyl-s1qRmeguoWGD4"
+  content = each.value
 }
 
 resource "cloudflare_dns_record" "gmail_dkim" {
